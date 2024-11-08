@@ -8,7 +8,8 @@ import {
 	FILTER_CONTACTS,
 	CLEAR_FILTER,
 	CONTACT_ERROR,
-	CLEAR_CONTACTS
+	CLEAR_CONTACTS,
+	ADD_DELETE_CONTACT
 } from '../types';
 
 export default (state, action) => {
@@ -40,7 +41,14 @@ export default (state, action) => {
 				...state,
 				contacts: state.contacts.filter(
 					contact => contact._id !== action.payload
+
 				),
+				loading: false
+			};
+		case ADD_DELETE_CONTACT:
+			return {
+				...state,
+				deletedContacts: [action.payload, ...state.deletedContacts],
 				loading: false
 			};
 		case CLEAR_CONTACTS:

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ContactContext from '../../context/contact/contactContext';
 
@@ -8,15 +8,32 @@ const ContactItem = ({ contact }) => {
 
   const { _id, name, email, phone, type } = contact;
 
+  // Initialize deletedContacts in localStorage if it doesn't exist
+  useEffect(() => {
+    if (!localStorage.getItem('deletedContacts')) {
+      localStorage.setItem('deletedContacts', JSON.stringify([])); // Initialize as empty array
+    }
+  }, []); // Empty dependency array ensures this runs once on component mount
+
   const onDelete = () => {
+    // Delete the contact from the context (state)
     deleteContact(_id);
     clearCurrent();
+
+    // Retrieve existing deleted contacts from localStorage
+    let deletedContacts = JSON.parse(localStorage.getItem('deletedContacts')) || [];
+
+    // Add the current contact to the deleted contacts array
+    deletedContacts.push(contact);
+
+    // Store the updated deleted contacts array in localStorage
+    localStorage.setItem('deletedContacts', JSON.stringify(deletedContacts));
   };
 
   return (
     <div className='card bg-light'>
       <h3 className='text-primary text-left'>
-        {name}{' '}Z
+        {name}{' '}
         <span
           style={{ float: 'right' }}
           className={

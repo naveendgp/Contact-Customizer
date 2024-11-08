@@ -126,7 +126,7 @@ const AuthState = props => {
 			loadUser();
 		} catch (err) {
 			// Log the error for debugging
-			console.error("Error during login:", err);
+			console.error("Error during login:", err.message);
 	
 			// If the response is available, use its message; otherwise, provide a default message
 			const errorMsg = err.response && err.response.data && err.response.data.msg 
